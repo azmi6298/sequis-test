@@ -15,8 +15,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        {/* Navbar */}
-        <div className="w-full">
+        {/* Navbar web */}
+        <div className="w-full hidden lg:block">
           <ul className="grid grid-cols-3 justify-items-start mx-8">
             <li>All Articles</li>
             <li>Fashion</li>
@@ -27,9 +27,21 @@ export default function Home() {
           </ul>
         </div>
 
+        {/* Navbar mobile */}
+        <div className="justify-between flex lg:hidden">
+          <span>Logo</span>
+          <button>
+            <svg viewBox="0 0 100 80" width="40" height="40">
+              <rect width="100" height="15"></rect>
+              <rect y="30" width="100" height="15"></rect>
+              <rect y="60" width="100" height="15"></rect>
+            </svg>
+          </button>
+        </div>
+
         {/* Articles */}
-        <div className="flex flex-col my-12">
-          <div className="grid grid-cols-2 gap-y-12">
+        <div className="flex flex-col my-12 px-8 lg:px-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-12">
             {/* Card */}
             <div className="flex flex-col items-center gap-y-6">
               <Image
@@ -98,13 +110,13 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <div className="flex flex-col items-center bg-black text-white py-12 gap-y-6">
+        <div className="flex flex-col items-center bg-black text-white py-12 gap-y-6 text-center">
           <span className="text-4xl font-bold">Empowering Minds</span>
-          <span className="text-gray-400">
+          <span className="text-gray-400 px-8 text-xl lg:px-0">
             Insights and Strategies for Personal and Professional Growth
           </span>
 
-          <div className="grid grid-cols-3 gap-x-12 px-12">
+          <div className="grid lg:grid-cols-3 gap-12 px-12">
             {/* Card */}
             <div className="flex flex-col items-center gap-y-6">
               <Image
