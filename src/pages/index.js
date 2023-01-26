@@ -1,13 +1,20 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "@next/font/google";
-import styles from "@/styles/Home.module.css";
+import useSWR from "swr";
 
 import Navbar from "@/components/Navbar";
 
-const inter = Inter({ subsets: ["latin"] });
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Home() {
+  const { data, error } = useSWR("/api/articles", fetcher);
+
+  if (error) return <div>Failed to load data</div>;
+
+  if (!data) return <div>Loading..</div>;
+
+  const articles = JSON.parse(data);
+
   return (
     <>
       <Head>
@@ -22,65 +29,23 @@ export default function Home() {
         <div className="flex flex-col my-12 px-8 lg:px-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-12">
             {/* Card */}
-            <div className="flex flex-col items-center gap-y-6">
-              <Image
-                src="https://picsum.photos/600/400"
-                width={600}
-                height={400}
-                className="rounded rounded-lg"
-              ></Image>
-              <span className="border border-black p-2 rounded-full text-xs">
-                By <span className="font-bold">Christopher Johnson</span>
-              </span>
-              <span className="font-medium text-2xl">
-                10 Simple Way to Cook Quinoa
-              </span>
-            </div>
-
-            <div className="flex flex-col items-center gap-y-6">
-              <Image
-                src="https://picsum.photos/600/400"
-                width={600}
-                height={400}
-                className="rounded rounded-lg"
-              ></Image>
-              <span className="border border-black p-2 rounded-full text-xs">
-                By <span className="font-bold">Christopher Johnson</span>
-              </span>
-              <span className="font-medium text-2xl">
-                10 Simple Way to Cook Quinoa
-              </span>
-            </div>
-
-            <div className="flex flex-col items-center gap-y-6">
-              <Image
-                src="https://picsum.photos/600/400"
-                width={600}
-                height={400}
-                className="rounded rounded-lg"
-              ></Image>
-              <span className="border border-black p-2 rounded-full text-xs">
-                By <span className="font-bold">Christopher Johnson</span>
-              </span>
-              <span className="font-medium text-2xl">
-                10 Simple Way to Cook Quinoa
-              </span>
-            </div>
-
-            <div className="flex flex-col items-center gap-y-6">
-              <Image
-                src="https://picsum.photos/600/400"
-                width={600}
-                height={400}
-                className="rounded rounded-lg"
-              ></Image>
-              <span className="border border-black p-2 rounded-full text-xs">
-                By <span className="font-bold">Christopher Johnson</span>
-              </span>
-              <span className="font-medium text-2xl">
-                10 Simple Way to Cook Quinoa
-              </span>
-            </div>
+            {articles.data.map((article) => (
+              <div
+                className="flex flex-col items-center text-center gap-y-6"
+                key={article.id}
+              >
+                <Image
+                  src={article.image}
+                  width={600}
+                  height={400}
+                  className="rounded rounded-lg"
+                ></Image>
+                <span className="border border-black p-2 rounded-full text-xs">
+                  By <span className="font-bold">{article.author}</span>
+                </span>
+                <span className="font-medium text-2xl">{article.title}</span>
+              </div>
+            ))}
           </div>
 
           <span className="border border-black py-6 px-8 uppercase self-center my-12">
