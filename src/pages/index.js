@@ -3,6 +3,8 @@ import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "@/styles/Home.module.css";
 
+import Navbar from "@/components/Navbar";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
@@ -15,30 +17,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        {/* Navbar web */}
-        <div className="w-full hidden lg:block">
-          <ul className="grid grid-cols-3 justify-items-start mx-8">
-            <li>All Articles</li>
-            <li>Fashion</li>
-            <li>Food</li>
-            <li>Travel</li>
-            <li>Film</li>
-            <li>Business</li>
-          </ul>
-        </div>
-
-        {/* Navbar mobile */}
-        <div className="justify-between flex lg:hidden">
-          <span>Logo</span>
-          <button>
-            <svg viewBox="0 0 100 80" width="40" height="40">
-              <rect width="100" height="15"></rect>
-              <rect y="30" width="100" height="15"></rect>
-              <rect y="60" width="100" height="15"></rect>
-            </svg>
-          </button>
-        </div>
-
+        <Navbar />
         {/* Articles */}
         <div className="flex flex-col my-12 px-8 lg:px-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-12">

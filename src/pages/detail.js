@@ -1,31 +1,11 @@
 import Image from "next/image";
 
+import Navbar from "@/components/Navbar";
+
 export default function Detail() {
   return (
     <>
-      {/* Navbar web */}
-      <div className="w-full hidden lg:block">
-        <ul className="grid grid-cols-3 justify-items-start mx-8">
-          <li>All Articles</li>
-          <li>Fashion</li>
-          <li>Food</li>
-          <li>Travel</li>
-          <li>Film</li>
-          <li>Business</li>
-        </ul>
-      </div>
-
-      {/* Navbar mobile */}
-      <div className="justify-between flex lg:hidden">
-        <span>Logo</span>
-        <button>
-          <svg viewBox="0 0 100 80" width="40" height="40">
-            <rect width="100" height="15"></rect>
-            <rect y="30" width="100" height="15"></rect>
-            <rect y="60" width="100" height="15"></rect>
-          </svg>
-        </button>
-      </div>
+      <Navbar />
 
       <div className="flex flex-col items-center text-center text-gray-400 ">
         <Image
