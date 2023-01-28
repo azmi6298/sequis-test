@@ -11,7 +11,12 @@ export default function Navbar({ selectedCategoryId, setSelectedCategoryId }) {
 
   const { data: categories, error } = useSWR("/api/categories", fetcher);
 
-  if (error) return <div>Failed to load data</div>;
+  if (error)
+    return (
+      <div className="flex h-screen w-full text-4xl font-bold justify-center items-center">
+        Failed to load data
+      </div>
+    );
   if (!categories) return <div>Loading..</div>;
 
   const allCategories = [
