@@ -9,6 +9,12 @@ export default async function handler(req, res) {
     jsonDirectory + "/articles.json",
     "utf8"
   );
-  //Return the content of the data file in json format
-  res.status(200).json(fileContents);
+
+  const articleObj = JSON.parse(fileContents).data;
+
+  const { id } = req.query;
+
+  const article = articleObj.find((obj) => obj.id == id);
+
+  res.status(200).send(article);
 }

@@ -28,7 +28,7 @@ export default function Detail() {
             duis consectetur minim labore.
           </p>
         </div>
-        <hr class="w-[20rem] lg:w-[72rem] h-1 mx-auto border-0 rounded bg-gray-400 mt-12"></hr>
+        <hr className="w-[20rem] lg:w-[72rem] h-1 mx-auto border-0 rounded bg-gray-400 mt-12"></hr>
 
         <div className="flex flex-col text-start lg:text-2xl my-12 gap-y-12 px-12 lg:px-[22rem]">
           <p>
