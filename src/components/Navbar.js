@@ -9,7 +9,10 @@ export default function Navbar({ selectedCategoryId, setSelectedCategoryId }) {
   const router = useRouter();
   const [isNavbarOpen, setNavbarOpen] = useState(false);
 
-  const { data: categories } = useSWR("/api/categories", fetcher);
+  const { data: categories, error } = useSWR("/api/categories", fetcher);
+
+  if (error) return;
+  if (!categories) return <div>Loading..</div>;
 
   const allCategories = [
     {
