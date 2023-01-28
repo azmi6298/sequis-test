@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import useSWR from "swr";
+import { useRouter } from "next/router";
 
 import CardHome from "@/components/CardHome";
 import CardFeatured from "@/components/CardFeatured";
@@ -10,6 +11,12 @@ import Navbar from "@/components/Navbar";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Home() {
+  // get category id if redirect from article detail page
+  const router = useRouter();
+  const {
+    query: { categoryId },
+  } = router;
+
   const [isShowMoreArticles, setIsShowMoreArticles] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);
   const [articlesByCategory, setArticlesByCategory] = useState([]);
@@ -18,11 +25,22 @@ export default function Home() {
   const { data: articles, error } = useSWR("/api/articles", fetcher);
 
   useEffect(() => {
+    if (categoryId) {
+      const filteredArticle = articles.filter(
+        (article) => article.categories.id == categoryId
+      );
+      setArticlesByCategory(filteredArticle);
+    }
+  }, []);
+
+  useEffect(() => {
     if (selectedCategoryId != 0) {
       const filteredArticle = articles.filter(
         (article) => article.categories.id == selectedCategoryId
       );
       setArticlesByCategory(filteredArticle);
+    } else {
+      setArticlesByCategory([]);
     }
   }, [articles, selectedCategoryId]);
 
