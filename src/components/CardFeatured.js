@@ -2,10 +2,7 @@ import Image from "next/image";
 
 export default function CardFeatured({ articleData }) {
   return (
-    <div
-      className="flex flex-col items-center text-center gap-y-6 cursor-pointer"
-      onClick={() => console.log("clicked")}
-    >
+    <div className="flex flex-col items-center text-center gap-y-6">
       <Image
         src={articleData.image}
         alt={articleData.title}

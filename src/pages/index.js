@@ -1,5 +1,7 @@
 import Head from "next/head";
-import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+
 import useSWR from "swr";
 
 import Navbar from "@/components/Navbar";
@@ -9,14 +11,24 @@ import CardFeatured from "@/components/CardFeatured";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Home() {
+  const [isShowMoreArticles, setIsShowMoreArticles] = useState(false);
+
+  // SWR to fetch articles.json
   const { data: articles, error } = useSWR("/api/articles", fetcher);
 
   if (error) return <div>Failed to load data</div>;
   if (!articles) return <div>Loading..</div>;
 
+  const notFeaturedArticles = articles
+    .filter((article) => !article.is_featured)
+    .sort((a, b) => a.created_at - b.created_at);
+
   const featuredArticles = articles
     .filter((article) => article.is_featured)
     .slice(0, 3);
+
+  const articleLimit = isShowMoreArticles ? notFeaturedArticles.length : 10;
+  const indexArticles = notFeaturedArticles.slice(0, articleLimit);
 
   return (
     <>
@@ -30,16 +42,22 @@ export default function Home() {
         <Navbar />
         {/* Articles */}
         <div className="flex flex-col my-12 px-8 lg:px-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 justify-items-center gap-y-12">
             {/* Card */}
-            {articles.map((article) => (
-              <CardHome articleData={article} key={article.id} />
+            {indexArticles.map((article) => (
+              <Link href={`/articles/${article.id}`} key={article.id}>
+                <CardHome articleData={article} />
+              </Link>
             ))}
           </div>
 
-          <span className="border border-black py-6 px-8 uppercase self-center my-12">
-            More Articles
-          </span>
+          <button
+            className="border border-black py-6 px-8 uppercase self-center my-12"
+            onClick={() => setIsShowMoreArticles(!isShowMoreArticles)}
+          >
+            {isShowMoreArticles ? "Less " : "More "}
+            Articles
+          </button>
         </div>
 
         {/* Footer */}
@@ -49,9 +67,11 @@ export default function Home() {
             Insights and Strategies for Personal and Professional Growth
           </span>
 
-          <div className="grid lg:grid-cols-3 gap-12 px-12">
+          <div className="grid lg:grid-cols-3 justify-items-center gap-12 px-12">
             {featuredArticles.map((article) => (
-              <CardFeatured articleData={article} key={article.id} />
+              <Link href={`/articles/${article.id}`} key={article.id}>
+                <CardFeatured articleData={article} key={article.id} />
+              </Link>
             ))}
           </div>
         </div>

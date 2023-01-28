@@ -2,10 +2,7 @@ import Image from "next/image";
 
 export default function CardHome({ articleData }) {
   return (
-    <div
-      className="flex flex-col items-center text-center gap-y-6 cursor-pointer"
-      onClick={() => console.log("clicked")}
-    >
+    <button className="flex flex-col items-center text-center gap-y-6">
       <Image
         src={articleData.image}
         alt={articleData.title}
@@ -17,6 +14,6 @@ export default function CardHome({ articleData }) {
         By <span className="font-bold">{articleData.author}</span>
       </span>
       <span className="font-medium text-2xl">{articleData.title}</span>
-    </div>
+    </button>
   );
 }
