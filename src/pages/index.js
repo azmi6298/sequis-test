@@ -44,8 +44,18 @@ export default function Home() {
     }
   }, [articles, selectedCategoryId]);
 
-  if (error) return <div>Failed to load data</div>;
-  if (!articles) return <div>Loading..</div>;
+  if (error)
+    return (
+      <div className="flex h-screen w-full text-4xl font-bold justify-center items-center">
+        Failed to load data
+      </div>
+    );
+  if (!articles)
+    return (
+      <div className="flex h-screen w-full text-4xl font-bold justify-center items-center">
+        Loading..
+      </div>
+    );
 
   const notFeaturedArticles = articles
     .filter((article) => !article.is_featured)

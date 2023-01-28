@@ -9,15 +9,7 @@ export default function Navbar({ selectedCategoryId, setSelectedCategoryId }) {
   const router = useRouter();
   const [isNavbarOpen, setNavbarOpen] = useState(false);
 
-  const { data: categories, error } = useSWR("/api/categories", fetcher);
-
-  if (error)
-    return (
-      <div className="flex h-screen w-full text-4xl font-bold justify-center items-center">
-        Failed to load data
-      </div>
-    );
-  if (!categories) return <div>Loading..</div>;
+  const { data: categories } = useSWR("/api/categories", fetcher);
 
   const allCategories = [
     {
