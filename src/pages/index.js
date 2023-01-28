@@ -1,18 +1,30 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useSWR from "swr";
 
 import CardHome from "@/components/CardHome";
 import CardFeatured from "@/components/CardFeatured";
+import Navbar from "@/components/Navbar";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Home() {
   const [isShowMoreArticles, setIsShowMoreArticles] = useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(0);
+  const [articlesByCategory, setArticlesByCategory] = useState([]);
 
   // SWR to fetch articles.json
   const { data: articles, error } = useSWR("/api/articles", fetcher);
+
+  useEffect(() => {
+    if (selectedCategoryId != 0) {
+      const filteredArticle = articles.filter(
+        (article) => article.categories.id == selectedCategoryId
+      );
+      setArticlesByCategory(filteredArticle);
+    }
+  }, [articles, selectedCategoryId]);
 
   if (error) return <div>Failed to load data</div>;
   if (!articles) return <div>Loading..</div>;
@@ -26,7 +38,10 @@ export default function Home() {
     .slice(0, 3);
 
   const articleLimit = isShowMoreArticles ? notFeaturedArticles.length : 10;
-  const indexArticles = notFeaturedArticles.slice(0, articleLimit);
+  const indexArticles =
+    articlesByCategory.length == 0
+      ? notFeaturedArticles.slice(0, articleLimit)
+      : articlesByCategory;
 
   return (
     <>
@@ -38,6 +53,10 @@ export default function Home() {
       </Head>
       <main>
         {/* Articles */}
+        <Navbar
+          selectedCategoryId={selectedCategoryId}
+          setSelectedCategoryId={setSelectedCategoryId}
+        />
         <div className="flex flex-col my-12 px-8 lg:px-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 justify-items-center gap-y-12">
             {/* Card */}

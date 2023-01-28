@@ -3,6 +3,8 @@ import Head from "next/head";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 
+import Navbar from "@/components/Navbar";
+
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function ArticleDetail() {
@@ -21,7 +23,7 @@ export default function ArticleDetail() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <Navbar />
       <div className="flex flex-col items-center text-center text-gray-400 ">
         <Image
           src={article.image}
