@@ -1,19 +1,26 @@
 import { useState } from "react";
+import useSWR from "swr";
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function Navbar() {
   const [isNavbarOpen, setNavbarOpen] = useState(false);
 
+  const { data: categories, error } = useSWR("/api/categories", fetcher);
+
+  if (error) return <div>Failed to load data</div>;
+  if (!categories) return <div>Loading..</div>;
+
   return (
     <>
       {/* Navbar web */}
-      <div className="w-full hidden lg:block">
-        <ul className="grid grid-cols-3 justify-items-start mx-8">
+      <div className="w-full hidden lg:flex justify-between px-24">
+        <div className="text-3xl font-semibold bg-orange-500 p-8">Logo</div>
+        <ul className="grid grid-cols-3 gap-x-24 justify-items-start mx-8 font-semibold">
           <li>All Articles</li>
-          <li>Fashion</li>
-          <li>Food</li>
-          <li>Travel</li>
-          <li>Film</li>
-          <li>Business</li>
+          {categories.map((cat) => (
+            <li key={cat.id}>{cat.title}</li>
+          ))}
         </ul>
       </div>
 

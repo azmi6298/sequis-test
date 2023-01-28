@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
-
 import useSWR from "swr";
 
 import CardHome from "@/components/CardHome";
